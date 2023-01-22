@@ -18,7 +18,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Redirect::route('login');
+    return Redirect::route('bookstore.index');
 });
 
 Route::resource('bookstore', \App\Http\Controllers\BookStoreController::class)->middleware('auth');
