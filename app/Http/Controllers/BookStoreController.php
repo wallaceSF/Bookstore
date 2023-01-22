@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BookStore;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -14,6 +11,9 @@ use Inertia\Response;
 
 class BookStoreController extends Controller
 {
+    /**
+     * @return Response
+     */
     public function index(): Response
     {
         $bookStoreList = BookStore::latest()->paginate(5);
@@ -23,12 +23,19 @@ class BookStoreController extends Controller
         ]);
     }
 
+    /**
+     * @return Response
+     */
     public function create(): Response
     {
         return Inertia::render('BookStore/Create');
     }
 
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required',
@@ -42,17 +49,21 @@ class BookStoreController extends Controller
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
         $bookStore = BookStore::find($id);
+
         return Inertia::render('BookStore/Edit', compact('bookStore'));
     }
 
-
-    public function edit($id)
+    /**
+     * @param int $id
+     * @return Response
+     */
+    public function edit(int $id): Response
     {
         $bookStore = BookStore::find($id);
         return Inertia::render('BookStore/Edit', compact('bookStore'));
@@ -60,10 +71,10 @@ class BookStoreController extends Controller
 
     /**
      * @param Request $request
-     * @param $id
+     * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): Response
     {
         $request->validate([
             'name' => 'required',
@@ -72,16 +83,16 @@ class BookStoreController extends Controller
         ]);
 
         $bookStore = BookStore::find($id);
-
         $bookStore->fill($request->post())->save();
+
         return Inertia::render('BookStore/Edit', compact('bookStore'));
     }
 
     /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $stock = BookStore::find($id);
         $stock->delete();
