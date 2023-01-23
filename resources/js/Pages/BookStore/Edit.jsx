@@ -5,16 +5,13 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import {Transition} from "@headlessui/react";
-import React, {Component} from 'react';
+import React from 'react';
 
 
-export default function Edit({auth, mustVerifyEmail, status, bookStore}) {
+export default function Edit({auth, bookStore}) {
     const {
-        invokeModal,
-        reset,
         data,
         setData,
-        post,
         patch,
         errors,
         processing,
@@ -29,12 +26,6 @@ export default function Edit({auth, mustVerifyEmail, status, bookStore}) {
         e.preventDefault();
         patch(route('bookstore.update', bookStore.id));
     };
-
-    console.log(data);
-
-    function handleChange(event) {
-        this.setState({value: event.target.value});
-    }
 
     return (
         <AuthenticatedLayout
@@ -69,13 +60,13 @@ export default function Edit({auth, mustVerifyEmail, status, bookStore}) {
                                 <InputLabel for="isbn" value="ISBN"/>
                                 <TextInput
                                     id="isbn"
+                                    type="number"
                                     className="mt-1 block w-full"
                                     value={bookStore.ISBN}
                                     handleChange={(e) => {
                                         setData('ISBN', e.target.value)
                                         bookStore.ISBN = e.target.value
                                     }}
-                                    required
                                     isFocused
                                     autoComplete="isbn"
                                 />
@@ -87,48 +78,31 @@ export default function Edit({auth, mustVerifyEmail, status, bookStore}) {
 
                                 <TextInput
                                     id="value"
-                                    type="text"
+                                    type="number"
                                     className="mt-1 block w-full"
                                     value={bookStore.value}
                                     handleChange={(e) => {
                                         setData('value', e.target.value)
                                         bookStore.value = e.target.value
                                     }}
-                                    required
                                     autoComplete="value"
                                 />
                                 <InputError className="mt-2"
-                                            message={errors.Value}/>
-
-
-                                {/*<InputError className="mt-2" message={errors.email} />*/}
+                                            message={errors.value}/>
                             </div>
-
-                            {/*{mustVerifyEmail && user.email_verified_at === null && (*/}
-                            {/*    <div>*/}
-                            {/*        <p className="text-sm mt-2 text-gray-800">*/}
-                            {/*            Your email address is unverified.*/}
-                            {/*            <Link*/}
-                            {/*                href={route('verification.send')}*/}
-                            {/*                method="post"*/}
-                            {/*                as="button"*/}
-                            {/*                className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"*/}
-                            {/*            >*/}
-                            {/*                Click here to re-send the verification email.*/}
-                            {/*            </Link>*/}
-                            {/*        </p>*/}
-
-                            {/*        {status === 'verification-link-sent' && (*/}
-                            {/*            <div className="mt-2 font-medium text-sm text-green-600">*/}
-                            {/*                A new verification link has been sent to your email address.*/}
-                            {/*            </div>*/}
-                            {/*        )}*/}
-                            {/*    </div>*/}
-                            {/*)}*/}
 
                             <div className="flex items-center gap-4">
                                 <PrimaryButton
                                     processing={processing}>Save</PrimaryButton>
+
+                                <a href={route('bookstore.index')}
+                                   className="iinline-flex items-center px-4 py-2 bg-gray-800 border
+                                   border-transparent rounded-md font-semibold text-xs text-white
+                                    uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700
+                                     active:bg-gray-900 focus:outline-none focus:ring-2
+                                     focus:ring-indigo-500 focus:ring-offset-2
+                                      transition ease-in-out duration-150 false ">Return
+                                </a>
 
                                 <Transition
                                     show={recentlySuccessful}
@@ -140,6 +114,7 @@ export default function Edit({auth, mustVerifyEmail, status, bookStore}) {
                                 </Transition>
                             </div>
                         </form>
+
 
 
                     </div>

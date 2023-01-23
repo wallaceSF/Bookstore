@@ -39,8 +39,8 @@ class BookStoreController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'ISBN' => 'required',
-            'value' => 'required',
+            'ISBN' => 'numeric',
+            'value' => 'between:0,99.99',
         ]);
 
         BookStore::create($request->all());
@@ -78,8 +78,8 @@ class BookStoreController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'ISBN' => 'required',
-            'value' => 'required',
+            'ISBN' => 'numeric',
+            'value' => 'numeric|between:0,99.99',
         ]);
 
         $bookStore = BookStore::find($id);

@@ -13,11 +13,6 @@ export default function Index(props) {
     const bookStoreListRender = (bookStoreListParams) => {
         if (bookStoreListParams == null) {
             return [];
-        }
-
-        const submit = (e) => {
-            console.log('jdhdkjhdjkdhjkd')
-            //    delete(route('bookstore.destroy', e));
         };
 
         return bookStoreListParams.map(book => (

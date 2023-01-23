@@ -1,26 +1,15 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-// import DeleteUserForm from './Partials/DeleteUserForm';
-// import UpdatePasswordForm from './Partials/UpdatePasswordForm';
-// import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
-import {Head, Link, useForm} from '@inertiajs/react';
+import {Head, useForm} from '@inertiajs/react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import {Transition} from "@headlessui/react";
-import SecondaryButton from "@/Components/SecondaryButton";
-import DangerButton from "@/Components/DangerButton";
-import Modal from "@/Components/Modal";
-import {useRef, useState} from 'react';
 
-export default function Create({auth, mustVerifyEmail, status}) {
+export default function Create({auth}) {
     const {
-        invokeModal,
-        reset,
-        data,
         setData,
         post,
-        patch,
         errors,
         processing,
         recentlySuccessful
@@ -54,16 +43,19 @@ export default function Create({auth, mustVerifyEmail, status}) {
                                     isFocused
                                     autoComplete="name"
                                 />
-                                <InputError className="mt-2" message={errors.name}/>
+                                <InputError className="mt-2"
+                                            message={errors.name}/>
                             </div>
                             <div>
                                 <InputLabel for="isbn" value="ISBN"/>
                                 <TextInput
                                     id="isbn"
                                     className="mt-1 block w-full"
-
-                                    handleChange={(e) => setData('ISBN', e.target.value)}
-                                    required
+                                    type="number"
+                                    pattern="[0-9]"
+                                    handleChange={(e) => {
+                                        setData('ISBN', e.target.value)
+                                    }}
                                     isFocused
                                     autoComplete="isbn"
                                 />
@@ -72,21 +64,21 @@ export default function Create({auth, mustVerifyEmail, status}) {
                             </div>
                             <div>
                                 <InputLabel for="value" value="Value"/>
-
                                 <TextInput
                                     id="value"
-                                    type="text"
                                     className="mt-1 block w-full"
-
+                                    type="number"
                                     handleChange={(e) => setData('value', e.target.value)}
                                     required
                                     autoComplete="value"
                                 />
-                                <InputError className="mt-2" message={errors.Value}/>
+                                <InputError className="mt-2"
+                                            message={errors.Value}/>
                             </div>
 
                             <div className="flex items-center gap-4">
-                                <PrimaryButton processing={processing}>Save</PrimaryButton>
+                                <PrimaryButton
+                                    processing={processing}>Save</PrimaryButton>
 
                                 <Transition
                                     show={recentlySuccessful}
